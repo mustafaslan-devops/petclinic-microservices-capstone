@@ -17,17 +17,11 @@ pipeline {
                 echo "Creating ECR Repo for ${APP_NAME} app"
                 sh '''
                 aws ecr describe-repositories --region ${AWS_REGION} --repository-name ${APP_REPO_NAME} || \
-                if [[ $(echo $?) -eq 0 ]]
-                    then
-                       	echo "ecr repo already created"
-
-                       else
                          aws ecr create-repository \
                          --repository-name ${APP_REPO_NAME} \
                          --image-scanning-configuration scanOnPush=true \
                          --image-tag-mutability MUTABLE \
                          --region ${AWS_REGION}
-                    fi
                 '''
             }
         }
